@@ -7,7 +7,7 @@ require_once ("models/publicationImage.php");
 use Model\Model;
 
 class Publication extends Model{
-    const QUERY_FIND = "SELECT P.id,P.model_id,M.name 'model_name',M.brand_id,B.name 'brand_name', P.year, P.condition_id,C.name 'condition_name', P.description, P.user, U.email 'user_email', U.name 'user_name', P.date_created FROM publication P INNER JOIN model M on P.model_id=M.id INNER JOIN brand b on M.brand_id=B.id INNER JOIN car_condition C on P.condition_id=C.id INNER JOIN user U on P.user=U.id";
+    const QUERY_FIND = "SELECT P.id,P.model_id,M.name 'model_name',M.brand_id,B.name 'brand_name', P.year, P.condition_id,C.name 'condition_name', P.description, P.user, U.email 'user_email', U.name 'user_name',P.price, P.date_created FROM publication P INNER JOIN model M on P.model_id=M.id INNER JOIN brand b on M.brand_id=B.id INNER JOIN car_condition C on P.condition_id=C.id INNER JOIN user U on P.user=U.id";
 
     /**
      * @var int $id
@@ -50,6 +50,10 @@ class Publication extends Model{
     */
     private $images;
 
+    /**
+     * @var float $price
+    */
+    private $price;
 
     /**
      * @return int
@@ -163,6 +167,8 @@ class Publication extends Model{
         $this->dateCreated = $dateCreated;
     }
 
+
+
     /**
      * @return array
      */
@@ -178,6 +184,24 @@ class Publication extends Model{
     {
         $this->images = $images;
     }
+
+    /**
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param float $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+
 
     /**
      * Method to find by id
@@ -269,6 +293,7 @@ class Publication extends Model{
         $result['user']['name'] = $this->getUser()->getName();
         $result['user']['email'] = $this->getUser()->getEmail();
 
+        $result['price'] = $this->getPrice();
 
         $result['images'] = [];
         foreach($this->getImages() as $image){
@@ -293,6 +318,7 @@ class Publication extends Model{
             $bindResult['condition_id'],$bindResult['condition_name'],
             $bindResult['description'],
             $bindResult['user_id'],$bindResult['user_email'],$bindResult['user_name'],
+            $bindResult['price'],
             $bindResult['date_created']
             );
         while($result->fetch()){
@@ -323,6 +349,8 @@ class Publication extends Model{
             $user->setName($bindResult['user_name']);
             $user->setEmail($bindResult['user_email']);
             $publication->setUser($user);
+
+            $publication->setPrice($bindResult['price']);
 
             $publication->setDateCreated($bindResult['date_created']);
 
@@ -355,12 +383,13 @@ class Publication extends Model{
 
         DatabaseManager::$link->autocommit(FALSE);
 
-        $query = "INSERT INTO publication(model_id, year, condition_id, description, user) VALUES(?,?,?,?,?)";
+        $query = "INSERT INTO publication(model_id, year, condition_id, price, description, user) VALUES(?,?,?,?,?)";
 
         $dinParams = [];
         $dinParams[] = self::getBindParam("i",$this->getModel()->getId());
         $dinParams[] = self::getBindParam("i",$this->getYear());
-        $dinParams[] = self::getBindParam("i",$this->getCondition());
+        $dinParams[] = self::getBindParam("i",$this->getCondition()->getId());
+        $dinParams[] = self::getBindParam("d",$this->getPrice());
         $dinParams[] = self::getBindParam("s",$this->getDescription());
         $dinParams[] = self::getBindParam("i",$this->getUser()->getId());
 
