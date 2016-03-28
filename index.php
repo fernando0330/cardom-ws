@@ -256,18 +256,24 @@ $app->get("/publication/qrcode",function() use($param,$app){
     ;
     // instantiate and use the dompdf class
     $dompdf = new Dompdf();
-    $imglogo = "http://cardom.honor.es/img/logo-color.png";
+    $imglogo = "http://cardom.honor.es/img/logo-blanco.png";
     $img = "/" .\Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
-
-    $html = "<!DOCTYPE html>" .
-                "<html>" .
-                    "<head>" .
-                        "<title>Cardom - Publicaci&oacute;n: #{$publication->getId()}</title>" .
-                    "</head>" .
-                    "<body>" .
-                        "<div style=\"text-align: center;font-family: arial;\"><h2>" . $arrPublication['name'] . "</h2><img src=\"{$img}\" title=\"Visit Us\"/><br/><img src=\"$imglogo\" width=\"200\"></div>" .
-                    "</body>" .
-                "</html>";
+    $html = "<!DOCTYPE html>
+                <html>
+                <head>
+                <title>Cardom - Publicaci&oacute;n: #{$publication->getId()}</title>
+                </head>
+                <body>
+                    <div style=\"padding:15px;text-align: center;font-family: arial;background:#2b1a51; width:400px; margin:0 auto; border-radius:15px;\">
+                    <h2 style=\"color:#ffffff;\">{$arrPublication['name']}</h2>
+                    <div style=\"padding:10px;border-radius: 15px;background:#ffffff;\">
+                        <img src=\"{$img}\" title=\"Visit Us\">
+                    </div>
+                    <br>
+                    <img src=\"$imglogo\" width=\"200\">
+                    </div>
+                </body>
+                </html>";
     $dompdf->loadHtml($html);
     echo $html;
 });
