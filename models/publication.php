@@ -295,6 +295,8 @@ class Publication extends Model{
 
         $result['price'] = $this->getPrice();
 
+        $result['name'] = sprintf("%s %s %d %s",$this->getModel()->getBrand()->getName(),$this->getModel()->getName(),$this->getYear(),$this->getCondition()->getName());
+
         $result['images'] = [];
         foreach($this->getImages() as $image){
             $result['images'][] = "http://" . $_SERVER['SERVER_NAME'] . "/" . \Config\Config::DIR_RES_IMG_PUBLICATIONS . $image->getFilename();

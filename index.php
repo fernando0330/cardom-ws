@@ -69,6 +69,7 @@ $app->post("/publication/add",function() use($param,$app) {
     $description    = isset($param['description']) ? $param['description'] : null;
     $images         = isset($param['images']) ? $param['images'] : [];
     $user           = isset($param['user']) ? $param['user'] : null;
+    $price           = isset($param['price']) ? $param['price'] : null;
 
     if ($model === null || !$model) $ws->generate_error(01,"El modelo es requerido");
     else if (!StringValidator::isInteger($model)) $ws->generate_error(01,"El modelo es inv&aacute;lido");
@@ -76,6 +77,8 @@ $app->post("/publication/add",function() use($param,$app) {
     else if (!StringValidator::isInteger($year)) $ws->generate_error(01,"El año es inv&aacute;lido");
     else if ($condition === null || !$condition) $ws->generate_error(01,"La condici&oacute; es requerida");
     else if ($description === null || !$description) $ws->generate_error(01,"La descripci&oacute; es requerida");
+    else if ($price === null || !$price) $ws->generate_error(01,"El precio es requerido");
+    else if (!StringValidator::isDecimal($price)) $ws->generate_error(01,"El precio es invalido. Solo numero es permitido");
     else if (!$model = ModelCar::findById($model)) $ws->generate_error(01,"Modelo no encontrado");
     else if (!$condition = Condition::findById($condition)) $ws->generate_error(01,"Condici&oacute; no encontrada");
     else if (!$user = User::findById($user)) $ws->generate_error(01,"Usuario no encontrado");
@@ -107,6 +110,7 @@ $app->post("/publication/add",function() use($param,$app) {
     $publication = new Publication();
     $publication->setModel($model);
     $publication->setYear($year);
+    $publication->setPrice($price);
     $publication->setCondition($condition);
     $publication->setDescription($description);
     $publication->setImages($images);
