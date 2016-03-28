@@ -6,8 +6,10 @@ require "models/brand.php";
 require "models/modelCar.php";
 require "models/publication.php";
 require "models/user.php";
+require "vendor/endroid/qrcode/src/Exceptions/FreeTypeLibraryMissingException.php";
+require "vendor/endroid/qrcode/src/QrCode.php";
 
-
+use Endroid\QrCode\QrCode;
 
 \Slim\Slim::registerAutoloader();
 
@@ -17,7 +19,18 @@ $body = $app->request->getBody();
 $param = json_decode($body,true);
 
 $app->get("/",function() use($param,$app) {
-
+    $qrCode = new QrCode();
+    $qrCode
+        ->setText("Life is too short to be generating QR codes")
+        ->setSize(300)
+        ->setPadding(10)
+        ->setErrorCorrection('high')
+        ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+        ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+        ->setLabel('My label')
+        ->setLabelFontSize(16)
+        ->render()
+    ;
 });
 
 
