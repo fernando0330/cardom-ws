@@ -33,12 +33,11 @@ $app->get("/",function() use($param,$app) {
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
         ->setLabel('Visit Us')
         ->setLabelFontSize(16)
-        ->getDataUri()
+        ->save("/var/www/html/ws.cardom/tmp/hola.pdf")
     ;
     // instantiate and use the dompdf class
     $dompdf = new Dompdf();
-    //$html = '<div style="text-align: center;"><h2>Honda Civic 2008</h2><img src=\"$img\" title=\"Visit Us\"/></div>';
-    $html = "$img";
+    $html = '<div style="text-align: center;"><h2>Honda Civic 2008</h2><img src=\"$img\" title=\"Visit Us\"/></div>';
     $dompdf->loadHtml($html);
 
     // (Optional) Setup the paper size and orientation
