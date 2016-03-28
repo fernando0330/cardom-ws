@@ -238,7 +238,8 @@ $app->get("/publication/qrcode",function() use($param,$app){
     $img = "/" .\Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
     $html = "<div style=\"text-align: center;\"><h2>{$arrPublication['name']}</h2><img src=\"{$img}\" title=\"Visit Us\"/></div>";
     $dompdf->loadHtml($html);
-
+    echo $html;
+    die;
     // (Optional) Setup the paper size and orientation
     //$dompdf->setPaper('A4', 'portrait');
 
