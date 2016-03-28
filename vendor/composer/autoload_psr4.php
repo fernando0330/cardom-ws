@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qrcode/src'),
+    'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
 );

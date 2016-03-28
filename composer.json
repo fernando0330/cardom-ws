@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "endroid/qrcode": "^1.6"
+        "endroid/qrcode": "^1.6",
+        "dompdf/dompdf": "0.7.x@beta"
     },
     "suggest": {
         "ext-mcrypt": "Required for HTTP cookie encryption"

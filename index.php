@@ -6,12 +6,15 @@ require "models/brand.php";
 require "models/modelCar.php";
 require "models/publication.php";
 require "models/user.php";
-require "vendor/endroid/qrcode/src/Exceptions/FreeTypeLibraryMissingException.php";
-require "vendor/endroid/qrcode/src/QrCode.php";
+//require "vendor/endroid/qrcode/src/Exceptions/FreeTypeLibraryMissingException.php";
+//require "vendor/endroid/qrcode/src/QrCode.php";
 
-use Endroid\QrCode\QrCode;
+require 'vendor/autoload.php';
 
 \Slim\Slim::registerAutoloader();
+
+use Endroid\QrCode\QrCode;
+use Dompdf\Dompdf;
 
 $app = new \Slim\Slim();
 
@@ -20,11 +23,10 @@ $param = json_decode($body,true);
 
 
 $app->get("/",function() use($param,$app) {
-    //$app->response->headers->set('Content-Type', 'image/png');
     $qrCode = new QrCode();
     $img = $qrCode
-        ->setText("http://google.com")
-        ->setSize(300)
+        ->setText("http://cardomrd.com/publication/1")
+        ->setSize(400)
         ->setPadding(10)
         ->setErrorCorrection('high')
         ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
@@ -33,8 +35,18 @@ $app->get("/",function() use($param,$app) {
         ->setLabelFontSize(16)
         ->getDataUri()
     ;
+    // instantiate and use the dompdf class
+    $dompdf = new Dompdf();
+    $dompdf->loadHtml('<div style="text-align: center;"><h2>Honda Civic 2008</h2><img src=\"$img\" title=\"Visit Us\"/></div>');
 
-    echo "<img src=\"$img\" title=\"Visit Us\"/>";
+    // (Optional) Setup the paper size and orientation
+    $dompdf->setPaper('A4', 'portrait');
+
+    // Render the HTML as PDF
+    $dompdf->render();
+
+    // Output the generated PDF to Browser
+    $dompdf->stream();
 });
 
 
