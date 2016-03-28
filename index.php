@@ -237,7 +237,7 @@ $app->get("/publication/qrcode",function() use($param,$app){
     $dompdf = new Dompdf();
     $imglogo = "http://cardom.honor.es/img/logo-color.png";
     $img = "/" .\Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
-    $html = "<div style=\"text-align: center;font-family: arial;\"><h2>{$arrPublication['name']}</h2><img src=\"{$img}\" title=\"Visit Us\"/><img src=\"$imglogo\" width=\"200\"></div>";
+    $html = "<div style=\"text-align: center;font-family: arial;\"><h2>{$arrPublication['name']}</h2><img src=\"{$img}\" title=\"Visit Us\"/><br/><img src=\"$imglogo\" width=\"200\"></div>";
     $dompdf->loadHtml($html);
     echo $html;
 });
