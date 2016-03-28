@@ -235,19 +235,11 @@ $app->get("/publication/qrcode",function() use($param,$app){
     ;
     // instantiate and use the dompdf class
     $dompdf = new Dompdf();
+    $imglogo = "http://cardom.honor.es/img/logo-color.png";
     $img = "/" .\Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
-    $html = "<div style=\"text-align: center;font-family: arial;\"><h2>{$arrPublication['name']}</h2><img src=\"{$img}\" title=\"Visit Us\"/></div>";
+    $html = "<div style=\"text-align: center;font-family: arial;\"><h2>{$arrPublication['name']}</h2><img src=\"{$img}\" title=\"Visit Us\"/><img src=\"$imglogo\" width=\"200\"></div>";
     $dompdf->loadHtml($html);
     echo $html;
-    die;
-    // (Optional) Setup the paper size and orientation
-    //$dompdf->setPaper('A4', 'portrait');
-
-    // Render the HTML as PDF
-    $dompdf->render();
-
-    // Output the generated PDF to Browser
-    $dompdf->stream();
 });
 
 
