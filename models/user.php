@@ -114,6 +114,7 @@ class User extends Model{
 
     /**
      * Method to find by id
+     * @return User
      */
     public static function findById($id){
         if (!$id) return null;

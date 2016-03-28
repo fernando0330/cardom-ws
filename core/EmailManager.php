@@ -112,7 +112,7 @@ class EmailManager{
 
 
         if(!$this->mail->send()) {
-            $logger = new CustomLogger();
+            $logger = new \Core\CustomLogger();
             $logger->error($this->mail->ErrorInfo);
             return false;
         } else {

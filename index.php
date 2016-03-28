@@ -2,13 +2,11 @@
 require 'Slim/Slim.php';
 require_once("config/config.php");
 require "core/Webservice.php";
+require "core/EmailManager.php";
 require "models/brand.php";
 require "models/modelCar.php";
 require "models/publication.php";
 require "models/user.php";
-//require "vendor/endroid/qrcode/src/Exceptions/FreeTypeLibraryMissingException.php";
-//require "vendor/endroid/qrcode/src/QrCode.php";
-
 require 'vendor/autoload.php';
 
 \Slim\Slim::registerAutoloader();
@@ -128,7 +126,30 @@ $app->post("/publication/add",function() use($param,$app) {
         $imageToAdd[] = $pubImg;
     }
     $publication->setImages($imageToAdd);
-    if (!$publication->add()) $ws->generate_error(00,"Error agregando la publicaci&oacute;n");
+
+
+    ///publication/qrcode
+    if ($publication->add()){
+        $urlQrCode = "{$_SERVER['SERVER_NAME']}/publication/qrcode?id={$publication->getId()}";
+
+        $body = "<html>";
+        $body.= "<body>";
+        $body.= "<p>Estimado Usuario:</p>";
+        $body.= "<p>Gracias por realizar su publicaci&oacute;n. Este es el enlace de su qrcode disponible para imprimir y pegar donde quiera:</p><p><a href=\"{$urlQrCode}\" title='CLICK AQUI'>CLICK AQUI</a> </p>";
+        $body.= "</body>";
+        $body.= "</html>";
+
+        //send notification with the qrcode
+        $email = new EmailManager("Gracias por su publicacion",$body);
+
+        $receivers = [];
+        $receivers[] = [
+            "email"=>$user->getEmail(),
+            "name"=>$user->getName()
+        ];
+        $email->send($receivers);
+    }
+    else $ws->generate_error(00,"Error agregando la publicaci&oacute;n");
 
     echo $ws->output($app);
 });
@@ -201,7 +222,6 @@ $app->post("/login",function() use($param,$app) {
 
 
 $app->get("/publication/qrcode",function() use($param,$app){
-
     $ws = new \Core\Webservice(false);
     $param = $_GET;
 

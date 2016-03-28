@@ -19,12 +19,15 @@ class Config{
     public static $projectName = "Cardom";
 
     public static $smtp_host  		    = "smtp.gmail.com";
-    public static $smtp_username 	    = "fernandoperez0330@gmail.com";
+    public static $smtp_username 	    = "fperez@aiplatform.net";
     public static $smtp_fullname 	    = "Cardom";
-    public static $smtp_passwd 		    = "FernGmail2014";
+    public static $smtp_passwd 		    = "Fernaipc2014";
     public static $smtp_debug 		    = 0;
     public static $smtp_secure		    = "tls"; //ssl also is accepted
     public static $smtp_port		    = 587;
+
+    public static $email_templ_header   = "";
+    public static $email_templ_footer   = "";
 
 
 }

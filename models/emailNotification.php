@@ -1,5 +1,6 @@
 <?php
-require_once("models/Model.php");
+require_once "models/model.php";
+use Model\Model;
 
 class EmailNotification extends Model{
 	
