@@ -7,7 +7,7 @@ require_once ("models/publicationImage.php");
 use Model\Model;
 
 class Publication extends Model{
-    const QUERY_FIND = "SELECT P.id,P.model_id,M.name 'model_name',M.brand_id,B.name 'brand_name', P.year, P.condition_id,C.name 'condition_name', P.description, P.user, U.email 'user_email', U.name 'user_name',P.price, P.date_created FROM publication P INNER JOIN model M on P.model_id=M.id INNER JOIN brand b on M.brand_id=B.id INNER JOIN car_condition C on P.condition_id=C.id INNER JOIN user U on P.user=U.id";
+    const QUERY_FIND = "SELECT P.id,P.model_id,M.name 'model_name',M.brand_id,B.name 'brand_name', P.year, P.condition_id,C.name 'condition_name', P.description, P.user, U.email 'user_email', U.name 'user_name',P.price, P.date_created FROM publication P INNER JOIN model M on P.model_id=M.id INNER JOIN brand B on M.brand_id=B.id INNER JOIN car_condition C on P.condition_id=C.id INNER JOIN user U on P.user=U.id";
 
     /**
      * @var int $id

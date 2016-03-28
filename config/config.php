@@ -15,7 +15,6 @@ class Config{
 
     public static $formatDate = "d-m-Y";
 
-
     public static $projectName = "Cardom";
 
     public static $smtp_host  		    = "smtp.gmail.com";
