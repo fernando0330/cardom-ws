@@ -385,7 +385,7 @@ class Publication extends Model{
 
         DatabaseManager::$link->autocommit(FALSE);
 
-        $query = "INSERT INTO publication(model_id, year, condition_id, price, description, user) VALUES(?,?,?,?,?)";
+        $query = "INSERT INTO publication(model_id, year, condition_id, price, description, user) VALUES(?,?,?,?,?,?)";
 
         $dinParams = [];
         $dinParams[] = self::getBindParam("i",$this->getModel()->getId());
