@@ -23,7 +23,7 @@ $param = json_decode($body,true);
 
 
 $app->get("/",function() use($param,$app) {
-    /*$qrCode = new QrCode();
+    $qrCode = new QrCode();
     $img = $qrCode
         ->setText("http://google.com")
         ->setSize(300)
@@ -34,7 +34,7 @@ $app->get("/",function() use($param,$app) {
         ->setLabel('Visit Us')
         ->setLabelFontSize(16)
         ->getDataUri()
-    ;*/
+    ;
     // instantiate and use the dompdf class
     $dompdf = new Dompdf();
     $dompdf->loadHtml('<div style="text-align: center;"><h2>Honda Civic 2008</h2><img src=\"$img\" title=\"Visit Us\"/></div>');
