@@ -20,7 +20,7 @@ $param = json_decode($body,true);
 
 
 $app->get("/",function() use($param,$app) {
-    $app->response->headers->set('Content-Type', 'image/png');
+    //$app->response->headers->set('Content-Type', 'image/png');
     $qrCode = new QrCode();
     $qrCode
         ->setText("Life is too short to be generating QR codes")
@@ -31,7 +31,7 @@ $app->get("/",function() use($param,$app) {
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
         ->setLabel('My label')
         ->setLabelFontSize(16)
-        ->render()
+        ->getDataUri()
     ;
 });
 
