@@ -227,7 +227,7 @@ $app->get("/publication/qrcode",function() use($param,$app){
         ->setSize(300)
         ->setPadding(10)
         ->setErrorCorrection('high')
-        ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+        ->setForegroundColor(array('r' => 43, 'g' => 26, 'b' => 81, 'a' => 0))
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
         ->setLabel("www.cardomrd.com")
         ->setLabelFontSize(16)
@@ -237,8 +237,6 @@ $app->get("/publication/qrcode",function() use($param,$app){
     $dompdf = new Dompdf();
     $img = "/" .\Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
     $html = "<div style=\"text-align: center;\"><h2>{$arrPublication['name']}</h2><img src=\"{$img}\" title=\"Visit Us\"/></div>";
-    echo $html;
-    die;
     $dompdf->loadHtml($html);
 
     // (Optional) Setup the paper size and orientation
