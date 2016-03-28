@@ -22,17 +22,19 @@ $param = json_decode($body,true);
 $app->get("/",function() use($param,$app) {
     //$app->response->headers->set('Content-Type', 'image/png');
     $qrCode = new QrCode();
-    echo $qrCode
-        ->setText("Life is too short to be generating QR codes")
+    $img = $qrCode
+        ->setText("http://google.com")
         ->setSize(300)
         ->setPadding(10)
         ->setErrorCorrection('high')
         ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
-        ->setLabel('My label')
+        ->setLabel('Visit Us')
         ->setLabelFontSize(16)
         ->getDataUri()
     ;
+
+    echo "<img src=\"$img\" title=\"Visit Us\"/>";
 });
 
 
