@@ -5,6 +5,7 @@ class Config{
     const DIR_TEMP = "tmp/";
 
     const DIR_RES_IMG_PUBLICATIONS = "public/resources/images/publications/";
+    const DIR_RES_QR_PUBLICATIONS = "public/resources/qrcode/publications/";
 
     public static $db_host = "localhost";
     public static $db_port = "3301";

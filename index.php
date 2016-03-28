@@ -23,31 +23,7 @@ $param = json_decode($body,true);
 
 
 $app->get("/",function() use($param,$app) {
-    $qrCode = new QrCode();
-    $img = $qrCode
-        ->setText("http://google.com")
-        ->setSize(300)
-        ->setPadding(10)
-        ->setErrorCorrection('high')
-        ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
-        ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
-        ->setLabel('Visit Us')
-        ->setLabelFontSize(16)
-        ->save("/var/www/html/ws.cardom/tmp/hola.pdf")
-    ;
-    // instantiate and use the dompdf class
-    $dompdf = new Dompdf();
-    $html = '<div style="text-align: center;"><h2>Honda Civic 2008</h2><img src=\"$img\" title=\"Visit Us\"/></div>';
-    $dompdf->loadHtml($html);
 
-    // (Optional) Setup the paper size and orientation
-    //$dompdf->setPaper('A4', 'portrait');
-
-    // Render the HTML as PDF
-    $dompdf->render();
-
-    // Output the generated PDF to Browser
-    $dompdf->stream();
 });
 
 
@@ -220,6 +196,57 @@ $app->post("/login",function() use($param,$app) {
         $ws->result = $user->toArray();
 
     echo $ws->output($app);
+});
+
+
+
+$app->get("/publication/qrcode",function() use($param,$app){
+
+    $ws = new \Core\Webservice(false);
+    $param = $_GET;
+
+    $id = isset($param['id']) ? $param['id'] : null;
+
+    if ($id === null || !$id ) $ws->generate_error(01,"El id de la publicaci&oacute;n es requerida");
+    else if (!$publication = Publication::findById($id)) $ws->generate_error(01,"Publicaci&oacute;n no encontrada");
+
+    if ($ws->error){
+        echo $ws->output($app);
+        return;
+    }
+    $arrayPublicaction = $publication->toArray();
+
+    $qrCode = new QrCode();
+
+    $rand = rand();
+    $filenameQrCode = "{$publication->getId()}.png";
+
+    $filenameQrCodeWithPath = __DIR__ . "/" . \Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
+    $qrCode
+        ->setText("http://cardomrd.com/publication?id=" . $publication->getId())
+        ->setSize(300)
+        ->setPadding(10)
+        ->setErrorCorrection('high')
+        ->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+        ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+        ->setLabel("www.cardomrd.com")
+        ->setLabelFontSize(16)
+        ->save($filenameQrCodeWithPath)
+    ;
+    // instantiate and use the dompdf class
+    $dompdf = new Dompdf();
+    $img = \Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
+    $html = '<div style="text-align: center;"><h2>{$arrayPublication[\'name\']}</h2><img src=\"$img\" title=\"Visit Us\"/></div>';
+    $dompdf->loadHtml($html);
+
+    // (Optional) Setup the paper size and orientation
+    //$dompdf->setPaper('A4', 'portrait');
+
+    // Render the HTML as PDF
+    $dompdf->render();
+
+    // Output the generated PDF to Browser
+    $dompdf->stream();
 });
 
 

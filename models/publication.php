@@ -205,6 +205,7 @@ class Publication extends Model{
 
     /**
      * Method to find by id
+     * @return Publication
      */
     public static function findById($id){
         $publications = self::find($id);
