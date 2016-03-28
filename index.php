@@ -236,7 +236,7 @@ $app->get("/publication/qrcode",function() use($param,$app){
     // instantiate and use the dompdf class
     $dompdf = new Dompdf();
     $img = \Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
-    $html = '<div style="text-align: center;"><h2>' . $arrPublication['name'] . '"</h2><img src="$img" title=\"Visit Us\"/></div>';
+    $html = "<div style=\"text-align: center;\"><h2>{$arrPublication['name']}</h2><img src=\"{$img}\" title=\"Visit Us\"/></div>";
     echo $html;
     die;
     $dompdf->loadHtml($html);
