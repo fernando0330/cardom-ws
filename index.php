@@ -244,13 +244,13 @@ $app->get("/publication/qrcode",function() use($param,$app){
 
     $filenameQrCodeWithPath = __DIR__ . "/" . \Config\Config::DIR_RES_QR_PUBLICATIONS . $filenameQrCode;
     $qrCode
-        ->setText("http://cardomrd.com/publication?id=" . $publication->getId())
+        ->setText("http://cardom.site/publication?id=" . $publication->getId())
         ->setSize(300)
         ->setPadding(10)
         ->setErrorCorrection('high')
         ->setForegroundColor(array('r' => 43, 'g' => 26, 'b' => 81, 'a' => 0))
         ->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
-        ->setLabel("www.cardomrd.com")
+        ->setLabel("www.cardom.site")
         ->setLabelFontSize(16)
         ->save($filenameQrCodeWithPath)
     ;
