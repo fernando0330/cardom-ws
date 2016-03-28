@@ -22,7 +22,7 @@ $param = json_decode($body,true);
 $app->get("/",function() use($param,$app) {
     //$app->response->headers->set('Content-Type', 'image/png');
     $qrCode = new QrCode();
-    $qrCode
+    echo $qrCode
         ->setText("Life is too short to be generating QR codes")
         ->setSize(300)
         ->setPadding(10)
