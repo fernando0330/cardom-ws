@@ -37,10 +37,12 @@ $app->get("/",function() use($param,$app) {
     ;
     // instantiate and use the dompdf class
     $dompdf = new Dompdf();
-    $dompdf->loadHtml('<div style="text-align: center;"><h2>Honda Civic 2008</h2><img src=\"$img\" title=\"Visit Us\"/></div>');
+    //$html = '<div style="text-align: center;"><h2>Honda Civic 2008</h2><img src=\"$img\" title=\"Visit Us\"/></div>';
+    $html = "$img";
+    $dompdf->loadHtml($html);
 
     // (Optional) Setup the paper size and orientation
-    $dompdf->setPaper('A4', 'portrait');
+    //$dompdf->setPaper('A4', 'portrait');
 
     // Render the HTML as PDF
     $dompdf->render();
