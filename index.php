@@ -140,7 +140,8 @@ $app->post("/publication/add",function() use($param,$app) {
         $body.= "</html>";
 
         //send notification with the qrcode
-        $email = new EmailManager("Gracias por su publicacion",$body);
+        $subject = "Gracias por su publicacion : #{$publication->getId()}";
+        $email = new EmailManager($subject,$body);
 
         $receivers = [];
         $receivers[] = [
