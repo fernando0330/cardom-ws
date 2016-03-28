@@ -19,6 +19,7 @@ $body = $app->request->getBody();
 $param = json_decode($body,true);
 
 $app->get("/",function() use($param,$app) {
+    header("Content-Type: image/jpeg");
     $qrCode = new QrCode();
     $qrCode
         ->setText("Life is too short to be generating QR codes")
