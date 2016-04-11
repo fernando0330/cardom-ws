@@ -7,8 +7,7 @@
  */
 class PushBots
 {
-
-    const DEBUG = TRUE;
+    public static $_DEBUG=  TRUE;
 
 	private $appId ;
 	private $appSecret ;
@@ -43,7 +42,7 @@ class PushBots
 	 */
 	private function sendRequest($method, $host, $path, $data) {
 		$jsonData = json_encode($data);
-        if (self::DEBUG) echo $jsonData;
+        if (self::$_DEBUG) echo $jsonData;
         $ci = curl_init();
 		
 		//PushBots Headers

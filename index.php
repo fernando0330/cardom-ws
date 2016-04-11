@@ -130,6 +130,7 @@ $app->post("/publication/add",function() use($param,$app) {
 
     ///publication/qrcode
     if ($publication->add()){
+        PushBots::$_DEBUG = false;
         $urlQrCode = "{$_SERVER['SERVER_NAME']}/publication/qrcode?id={$publication->getId()}";
 
         $body = "<html>";
@@ -173,8 +174,7 @@ $app->post("/publication/add",function() use($param,$app) {
         $pb->Payload($customFields);
         $pb->Platform(array("0","1"));
         $pb->Badge("+2");
-        
-        print_r($customFields);
+
         // Update Alias
         /**
          * set Alias Data
@@ -186,6 +186,9 @@ $app->post("/publication/add",function() use($param,$app) {
         $pb->AliasData(1, "AIzaSyDtEV0fTuMG1LIouDCyCmG0Z1Z5FygvVHk", "fernando perez");
         // set Alias on the server
         $pb->setAlias();
+
+        // Push it !
+        $pb->Push();
     }
     else $ws->generate_error(00,"Error agregando la publicaci&oacute;n");
 
