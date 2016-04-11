@@ -170,7 +170,7 @@ class Publication extends Model{
 
 
     /**
-     * @return array
+     * @return array(PublicationImage)
      */
     public function getImages()
     {

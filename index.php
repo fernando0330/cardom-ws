@@ -7,7 +7,8 @@ require "models/brand.php";
 require "models/modelCar.php";
 require "models/publication.php";
 require "models/user.php";
-require 'vendor/autoload.php';
+require "vendor/autoload.php";
+require_once("lib/PushBots.class.php");
 
 \Slim\Slim::registerAutoloader();
 
@@ -23,7 +24,6 @@ $param = json_decode($body,true);
 $app->get("/",function() use($param,$app) {
 
 });
-
 
 $app->get("/brand/get",function() use($param,$app) {
     $ws = new \Core\Webservice(false);
@@ -149,6 +149,42 @@ $app->post("/publication/add",function() use($param,$app) {
             "name"=>$user->getName()
         ];
         $email->send($receivers);
+
+        //send push notification
+        $pb = new PushBots();
+        // Application ID
+        $appID = '570b065d4a9efa65888b4568';
+        // Application Secret
+        $appSecret = '91e263a597be846b9680d9001bb0168a';
+        $pb->App($appID, $appSecret);
+
+        // Notification Settings
+        $arrPub = $publication->toArray();
+        $pb->Alert($arrPub['name']);
+
+        $customFields = [];
+        $customFields["largeIcon"] = "http://cardom.site/img/logo-color.png";
+        $customFields["BigPictureStyle"] = "true";
+
+        $imgUrl = $publication->getImages()[0];
+        $imgUrl = $imgUrl->getFilename();
+        $customFields["imgUrl"] = "http://{$_SERVER['SERVER_NAME']}/" . \Config\Config::DIR_RES_IMG_PUBLICATIONS . $imgUrl;
+
+        $pb->Payload($customFields);
+        $pb->Platform(array("0","1"));
+        $pb->Badge("+2");
+
+        // Update Alias
+        /**
+         * set Alias Data
+         * @param	integer	$platform 0=> iOS or 1=> Android.
+         * @param	String	$token Device Registration ID.
+         * @param	String	$alias New Alias.
+         */
+
+        $pb->AliasData(1, "AIzaSyDtEV0fTuMG1LIouDCyCmG0Z1Z5FygvVHk", "fernando perez");
+        // set Alias on the server
+        $pb->setAlias();
     }
     else $ws->generate_error(00,"Error agregando la publicaci&oacute;n");
 

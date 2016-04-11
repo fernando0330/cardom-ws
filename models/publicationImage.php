@@ -97,6 +97,7 @@ class PublicationImage extends \Model\Model{
 
         $rand    = rand();
         $filename = $this->getPublication()->getId() . "-" . $rand;
+        $filename = $filename . ".png";
         $destinationFile = \Config\Config::DIR_RES_IMG_PUBLICATIONS . $filename;
         $copied = copy($image['temp_file'],$destinationFile);
         if ($copied){
