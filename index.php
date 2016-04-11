@@ -173,7 +173,8 @@ $app->post("/publication/add",function() use($param,$app) {
         $pb->Payload($customFields);
         $pb->Platform(array("0","1"));
         $pb->Badge("+2");
-
+        
+        print_r($customFields);
         // Update Alias
         /**
          * set Alias Data
